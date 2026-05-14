@@ -25,19 +25,26 @@ export default function ChatBubble({ role, content, sources, streaming }: Props)
 
   if (role === "user") {
     return (
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <div
-          className="bg-blue-500 text-white rounded-2xl rounded-tr-sm px-5 py-3 text-sm leading-relaxed"
-          style={{ maxWidth: "72%", wordBreak: "break-word" }}
-        >
-          {content}
-        </div>
+      <div
+        className="bg-blue-500 text-white rounded-2xl rounded-tr-sm px-5 py-3 text-sm leading-relaxed"
+        style={{
+          alignSelf: "flex-end",
+          maxWidth: "70%",
+          wordBreak: "break-word",
+        }}
+      >
+        {content}
       </div>
     );
   }
 
   return (
-    <div style={{ maxWidth: "85%" }}>
+    <div
+      style={{
+        alignSelf: "flex-start",
+        maxWidth: "85%",
+      }}
+    >
       <div
         className="bg-white rounded-2xl rounded-tl-sm px-5 py-4 text-sm leading-relaxed text-gray-800 border border-gray-200 shadow-sm"
         style={{ wordBreak: "break-word" }}
