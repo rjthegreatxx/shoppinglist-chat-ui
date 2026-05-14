@@ -111,7 +111,7 @@ export default function ChatPanel() {
       </div>
 
       {/* Input */}
-      <div className="shrink-0 flex items-end gap-3 px-5 py-4 bg-white border-t border-gray-200" style={{ paddingBottom: "max(1rem, env(safe-area-inset-bottom))" }}>
+      <div className="shrink-0 flex items-end gap-3 px-5 py-5 bg-white border-t border-gray-200" style={{ paddingBottom: "max(1.25rem, env(safe-area-inset-bottom))" }}>
         <textarea
           ref={textareaRef}
           rows={1}
@@ -120,12 +120,12 @@ export default function ChatPanel() {
           onKeyDown={onKeyDown}
           onInput={autoResize}
           placeholder="Type a message…"
-          className="flex-1 px-4 py-2.5 border border-gray-200 rounded-2xl text-sm resize-none outline-none bg-gray-50 leading-snug focus:border-blue-400 focus:bg-white transition-all"
+          className="flex-1 px-4 py-3 border border-gray-200 rounded-2xl text-sm resize-none outline-none bg-gray-50 leading-snug focus:border-blue-400 focus:bg-white transition-all"
         />
         <button
           onClick={send}
           disabled={streaming || !input.trim()}
-          className="px-5 py-2.5 bg-blue-500 text-white rounded-2xl text-sm font-medium hover:bg-blue-600 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-default transition-colors shrink-0"
+          className="px-5 py-3 bg-blue-500 text-white rounded-2xl text-sm font-medium hover:bg-blue-600 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-default transition-colors shrink-0"
         >
           Send
         </button>
