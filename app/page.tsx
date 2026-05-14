@@ -15,7 +15,7 @@ export default function Home() {
       <div className="flex flex-col w-full h-full" style={{ maxWidth: "680px" }}>
 
         {/* Header */}
-        <header className="flex items-center justify-between px-4 py-3 bg-white border-b border-gray-100 shrink-0">
+        <header className="flex items-center justify-between px-5 py-3 bg-white border-b border-gray-100 shrink-0">
           <h1 className="text-base font-semibold text-gray-900">Shopping List Chat</h1>
           <Show when="signed-in">
             <UserButton />
@@ -23,7 +23,7 @@ export default function Home() {
         </header>
 
         {/* Tabs */}
-        <div className="flex px-4 bg-white border-b border-gray-100 shrink-0">
+        <div className="flex px-5 bg-white border-b border-gray-100 shrink-0">
           {(["chat", "search"] as Tab[]).map((t) => (
             <button
               key={t}

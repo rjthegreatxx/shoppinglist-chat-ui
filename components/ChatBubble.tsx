@@ -28,7 +28,7 @@ export default function ChatBubble({ role, content, sources, streaming }: Props)
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <div
           className="bg-blue-500 text-white rounded-2xl rounded-tr-sm px-4 py-2.5 text-sm leading-relaxed"
-          style={{ maxWidth: "65%", wordBreak: "break-word" }}
+          style={{ maxWidth: "70%", wordBreak: "break-word" }}
         >
           {content}
         </div>
