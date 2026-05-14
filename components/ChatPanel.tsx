@@ -53,10 +53,7 @@ export default function ChatPanel() {
         if (chunk.sources) {
           setMessages((prev) => {
             const updated = [...prev];
-            updated[updated.length - 1] = {
-              ...updated[updated.length - 1],
-              sources: chunk.sources,
-            };
+            updated[updated.length - 1] = { ...updated[updated.length - 1], sources: chunk.sources };
             return updated;
           });
         }
@@ -87,23 +84,25 @@ export default function ChatPanel() {
   }
 
   function onKeyDown(e: KeyboardEvent<HTMLTextAreaElement>) {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      send();
-    }
+    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); }
   }
 
   function onInput() {
     const el = textareaRef.current;
     if (!el) return;
     el.style.height = "auto";
-    el.style.height = el.scrollHeight + "px";
+    el.style.height = Math.min(el.scrollHeight, 140) + "px";
   }
 
   return (
     <div className="flex flex-col flex-1 min-h-0">
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto flex flex-col gap-3 pb-2">
+      <div className="flex-1 overflow-y-auto flex flex-col gap-4 pb-4 px-1">
+        {messages.length === 0 && (
+          <div className="flex-1 flex items-center justify-center">
+            <p className="text-sm text-gray-400">Ask me about products in the catalog.</p>
+          </div>
+        )}
         {messages.map((m, i) => (
           <ChatBubble
             key={i}
@@ -117,7 +116,7 @@ export default function ChatPanel() {
       </div>
 
       {/* Input */}
-      <div className="flex gap-2 pt-3">
+      <div className="flex gap-2 pt-3 border-t border-gray-100">
         <textarea
           ref={textareaRef}
           rows={1}
@@ -126,12 +125,12 @@ export default function ChatPanel() {
           onKeyDown={onKeyDown}
           onInput={onInput}
           placeholder="Type a message…"
-          className="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl text-[0.95rem] resize-none outline-none bg-white max-h-36 leading-snug focus:border-[#0a84ff] transition-colors"
+          className="flex-1 px-4 py-3 border border-gray-200 rounded-2xl text-sm resize-none outline-none bg-white leading-snug focus:border-blue-400 focus:ring-2 focus:ring-blue-50 transition-all"
         />
         <button
           onClick={send}
           disabled={streaming || !input.trim()}
-          className="px-5 py-2.5 bg-[#0a84ff] text-white rounded-xl text-[0.95rem] font-medium self-end hover:bg-[#006edc] disabled:bg-gray-300 disabled:cursor-default transition-colors"
+          className="px-5 py-3 bg-blue-500 text-white rounded-2xl text-sm font-medium self-end hover:bg-blue-600 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-default transition-colors"
         >
           Send
         </button>
