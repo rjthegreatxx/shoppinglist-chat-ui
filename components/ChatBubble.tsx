@@ -25,8 +25,11 @@ export default function ChatBubble({ role, content, sources, streaming }: Props)
 
   if (role === "user") {
     return (
-      <div className="self-end max-w-[75%]">
-        <div className="px-4 py-3 rounded-2xl rounded-br-sm bg-blue-500 text-white text-sm leading-relaxed whitespace-pre-wrap break-words shadow-sm">
+      <div className="flex justify-end">
+        <div
+          className="bg-blue-500 text-white rounded-2xl rounded-tr-sm px-4 py-2.5 text-sm leading-relaxed break-words"
+          style={{ maxWidth: "65%", wordBreak: "break-word" }}
+        >
           {content}
         </div>
       </div>
@@ -34,24 +37,25 @@ export default function ChatBubble({ role, content, sources, streaming }: Props)
   }
 
   return (
-    <div className="self-start max-w-[75%] flex flex-col gap-1.5">
+    <div className="flex flex-col items-start gap-1.5">
       <div
-        ref={ref}
-        className={`px-4 py-3 rounded-2xl rounded-bl-sm bg-white text-gray-800 text-sm leading-relaxed break-words shadow-sm border border-gray-100 prose prose-sm max-w-none ${
-          streaming ? "after:content-['▋'] after:animate-pulse after:ml-0.5 after:text-gray-400" : ""
-        }`}
+        className="bg-white rounded-2xl rounded-tl-sm px-4 py-3 text-sm leading-relaxed text-gray-800 border border-gray-200 shadow-sm break-words"
+        style={{ maxWidth: "80%", wordBreak: "break-word" }}
       >
-        {streaming ? content : null}
+        <div ref={ref} className="prose prose-sm max-w-none">
+          {streaming && (
+            <>
+              {content}
+              <span className="inline-block w-0.5 h-4 bg-gray-400 ml-0.5 animate-pulse align-middle" />
+            </>
+          )}
+        </div>
       </div>
       {sources && sources.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 px-1">
-          <span className="text-xs text-gray-400 font-medium self-center">Sources:</span>
+        <div className="flex flex-wrap items-center gap-1.5 pl-1">
+          <span className="text-xs text-gray-400">Sources:</span>
           {sources.map((s) => (
-            <span
-              key={s.id}
-              title={s.id}
-              className="text-[0.7rem] bg-blue-50 text-blue-500 border border-blue-100 rounded-full px-2.5 py-0.5 font-medium"
-            >
+            <span key={s.id} title={s.id} className="text-xs bg-blue-50 text-blue-500 border border-blue-100 rounded-full px-2.5 py-0.5 font-medium">
               {s.name}
             </span>
           ))}

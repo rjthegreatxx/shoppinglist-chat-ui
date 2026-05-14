@@ -25,9 +25,9 @@ export default function ChatPanel() {
   useEffect(() => {
     if (!sessionId) return;
     setMessages([]);
-    fetchHistory(sessionId).then((history) => {
-      setMessages(history.map((m) => ({ role: m.role, content: m.content })));
-    });
+    fetchHistory(sessionId).then((h) =>
+      setMessages(h.map((m) => ({ role: m.role, content: m.content })))
+    );
   }, [sessionId]);
 
   useEffect(() => {
@@ -52,30 +52,27 @@ export default function ChatPanel() {
       for await (const chunk of streamChat(sessionId, text)) {
         if (chunk.sources) {
           setMessages((prev) => {
-            const updated = [...prev];
-            updated[updated.length - 1] = { ...updated[updated.length - 1], sources: chunk.sources };
-            return updated;
+            const next = [...prev];
+            next[next.length - 1] = { ...next[next.length - 1], sources: chunk.sources };
+            return next;
           });
         }
         if (chunk.text) {
           setMessages((prev) => {
-            const updated = [...prev];
-            updated[updated.length - 1] = {
-              ...updated[updated.length - 1],
-              content: updated[updated.length - 1].content + chunk.text,
+            const next = [...prev];
+            next[next.length - 1] = {
+              ...next[next.length - 1],
+              content: next[next.length - 1].content + chunk.text,
             };
-            return updated;
+            return next;
           });
         }
       }
     } catch {
       setMessages((prev) => {
-        const updated = [...prev];
-        updated[updated.length - 1] = {
-          ...updated[updated.length - 1],
-          content: "Connection error. Please try again.",
-        };
-        return updated;
+        const next = [...prev];
+        next[next.length - 1] = { ...next[next.length - 1], content: "Connection error. Please try again." };
+        return next;
       });
     } finally {
       setStreaming(false);
@@ -87,7 +84,7 @@ export default function ChatPanel() {
     if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); }
   }
 
-  function onInput() {
+  function autoResize() {
     const el = textareaRef.current;
     if (!el) return;
     el.style.height = "auto";
@@ -95,13 +92,11 @@ export default function ChatPanel() {
   }
 
   return (
-    <div className="flex flex-col flex-1 min-h-0">
+    <div className="flex flex-col h-full min-h-0 bg-gray-50">
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto flex flex-col gap-4 pb-4 px-1">
+      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
         {messages.length === 0 && (
-          <div className="flex-1 flex items-center justify-center">
-            <p className="text-sm text-gray-400">Ask me about products in the catalog.</p>
-          </div>
+          <p className="text-center text-sm text-gray-400 mt-8">Ask me about products in the catalog.</p>
         )}
         {messages.map((m, i) => (
           <ChatBubble
@@ -116,21 +111,21 @@ export default function ChatPanel() {
       </div>
 
       {/* Input */}
-      <div className="flex gap-2 pt-3 border-t border-gray-100">
+      <div className="shrink-0 flex items-end gap-2 px-4 py-3 bg-white border-t border-gray-100">
         <textarea
           ref={textareaRef}
           rows={1}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={onKeyDown}
-          onInput={onInput}
+          onInput={autoResize}
           placeholder="Type a message…"
-          className="flex-1 px-4 py-3 border border-gray-200 rounded-2xl text-sm resize-none outline-none bg-white leading-snug focus:border-blue-400 focus:ring-2 focus:ring-blue-50 transition-all"
+          className="flex-1 px-4 py-2.5 border border-gray-200 rounded-2xl text-sm resize-none outline-none bg-gray-50 leading-snug focus:border-blue-400 focus:bg-white transition-all"
         />
         <button
           onClick={send}
           disabled={streaming || !input.trim()}
-          className="px-5 py-3 bg-blue-500 text-white rounded-2xl text-sm font-medium self-end hover:bg-blue-600 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-default transition-colors"
+          className="px-5 py-2.5 bg-blue-500 text-white rounded-2xl text-sm font-medium hover:bg-blue-600 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-default transition-colors shrink-0"
         >
           Send
         </button>
