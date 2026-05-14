@@ -94,7 +94,7 @@ export default function ChatPanel() {
   return (
     <div className="flex flex-col h-full min-h-0 bg-gray-50">
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
+      <div className="flex-1 overflow-y-auto px-4 pt-4 pb-2 space-y-3">
         {messages.length === 0 && (
           <p className="text-center text-sm text-gray-400 mt-8">Ask me about products in the catalog.</p>
         )}
@@ -111,7 +111,7 @@ export default function ChatPanel() {
       </div>
 
       {/* Input */}
-      <div className="shrink-0 flex items-end gap-2 px-4 py-3 bg-white border-t border-gray-100">
+      <div className="shrink-0 flex items-end gap-2 px-4 py-4 bg-white border-t border-gray-200" style={{ paddingBottom: "max(1rem, env(safe-area-inset-bottom))" }}>
         <textarea
           ref={textareaRef}
           rows={1}
