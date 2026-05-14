@@ -1,6 +1,6 @@
 import type { Message, ProductResult, RagSource } from "./types";
 
-const BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+const BASE = "/api";
 
 export async function fetchHistory(sessionId: string): Promise<Message[]> {
   const res = await fetch(`${BASE}/history/${sessionId}`);
