@@ -13,7 +13,8 @@ body {
 
 /* Give assistant bubble paragraphs and line-breaks room to breathe */
 .prose p {
-  margin-bottom: 0.6em;
+  margin-bottom: 0.75em;
+  line-height: 1.7;
 }
 .prose p:last-child {
   margin-bottom: 0;
@@ -21,5 +22,13 @@ body {
 .prose br {
   display: block;
   content: "";
+  margin-top: 0.6em;
+}
+.prose ul, .prose ol {
   margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  padding-left: 1.25em;
+}
+.prose li {
+  margin-bottom: 0.3em;
 }
