@@ -94,7 +94,7 @@ export default function ChatPanel() {
   return (
     <div className="flex flex-col h-full min-h-0 bg-gray-50">
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto overflow-x-hidden px-5 pt-4 pb-2 space-y-4">
+      <div className="flex-1 overflow-y-auto overflow-x-hidden px-5 pt-5 pb-3 space-y-5">
         {messages.length === 0 && (
           <p className="text-center text-sm text-gray-400 mt-8">Ask me about products in the catalog.</p>
         )}

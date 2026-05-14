@@ -27,8 +27,8 @@ export default function ChatBubble({ role, content, sources, streaming }: Props)
     return (
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <div
-          className="bg-blue-500 text-white rounded-2xl rounded-tr-sm px-4 py-2.5 text-sm leading-relaxed"
-          style={{ maxWidth: "70%", wordBreak: "break-word" }}
+          className="bg-blue-500 text-white rounded-2xl rounded-tr-sm px-5 py-3 text-sm leading-relaxed"
+          style={{ maxWidth: "72%", wordBreak: "break-word" }}
         >
           {content}
         </div>
@@ -37,9 +37,9 @@ export default function ChatBubble({ role, content, sources, streaming }: Props)
   }
 
   return (
-    <div style={{ maxWidth: "80%", marginRight: "auto" }}>
+    <div style={{ maxWidth: "85%" }}>
       <div
-        className="bg-white rounded-2xl rounded-tl-sm px-4 py-3 text-sm leading-relaxed text-gray-800 border border-gray-200 shadow-sm"
+        className="bg-white rounded-2xl rounded-tl-sm px-5 py-4 text-sm leading-relaxed text-gray-800 border border-gray-200 shadow-sm"
         style={{ wordBreak: "break-word" }}
       >
         <div ref={ref} className="prose prose-sm max-w-none">
@@ -52,7 +52,7 @@ export default function ChatBubble({ role, content, sources, streaming }: Props)
         </div>
       </div>
       {sources && sources.length > 0 && (
-        <div className="flex flex-wrap items-center gap-1.5 mt-1.5 pl-1">
+        <div className="flex flex-wrap items-center gap-1.5 mt-2 pl-1">
           <span className="text-xs text-gray-400">Sources:</span>
           {sources.map((s) => (
             <span key={s.id} title={s.id} className="text-xs bg-blue-50 text-blue-500 border border-blue-100 rounded-full px-2.5 py-0.5 font-medium">
