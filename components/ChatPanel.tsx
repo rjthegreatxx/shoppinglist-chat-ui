@@ -94,7 +94,7 @@ export default function ChatPanel() {
   return (
     <div className="flex flex-col h-full min-h-0 bg-gray-50">
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto overflow-x-hidden flex flex-col gap-4 px-5 pt-5 pb-3">
+      <div className="flex-1 overflow-y-auto overflow-x-hidden px-6 pt-5 pb-3" style={{ display: "grid", gridTemplateColumns: "1fr", alignContent: "start", gap: "1.25rem" }}>
         {messages.length === 0 && (
           <p className="text-center text-sm text-gray-400 mt-8">Ask me about products in the catalog.</p>
         )}

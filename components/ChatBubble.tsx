@@ -28,10 +28,10 @@ export default function ChatBubble({ role, content, sources, streaming }: Props)
       <div
         className="bg-blue-500 text-white rounded-2xl rounded-tr-sm px-5 py-4 text-sm leading-relaxed"
         style={{
-          alignSelf: "flex-end",
-          maxWidth: "72%",
+          justifySelf: "end",
+          maxWidth: "70%",
           wordBreak: "break-word",
-          marginRight: "8px",
+          marginRight: "4px",
         }}
       >
         {content}
@@ -42,9 +42,9 @@ export default function ChatBubble({ role, content, sources, streaming }: Props)
   return (
     <div
       style={{
-        alignSelf: "flex-start",
-        maxWidth: "85%",
-        marginLeft: "8px",
+        justifySelf: "start",
+        maxWidth: "86%",
+        marginLeft: "4px",
       }}
     >
       <div
