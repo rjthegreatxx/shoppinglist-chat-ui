@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, KeyboardEvent } from "react";
+import { useUser } from "@clerk/nextjs";
 import ChatBubble from "./ChatBubble";
 import { fetchHistory, streamChat } from "@/lib/api";
 import type { RagSource } from "@/lib/types";
@@ -11,47 +12,31 @@ interface ChatMessage {
   sources?: RagSource[];
 }
 
-function getSessionId(): string {
-  const key = "chat_session_id";
-  let id = localStorage.getItem(key);
-  if (!id) {
-    id = "session-" + Math.random().toString(36).slice(2, 10);
-    localStorage.setItem(key, id);
-  }
-  return id;
-}
-
 export default function ChatPanel() {
+  const { user } = useUser();
+  const sessionId = user?.id ?? "";
+
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [sessionId, setSessionId] = useState<string>("");
   const [input, setInput] = useState("");
   const [streaming, setStreaming] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    const id = getSessionId();
-    setSessionId(id);
-    fetchHistory(id).then((history) => {
+    if (!sessionId) return;
+    setMessages([]);
+    fetchHistory(sessionId).then((history) => {
       setMessages(history.map((m) => ({ role: m.role, content: m.content })));
     });
-  }, []);
+  }, [sessionId]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  function newChat() {
-    const id = "session-" + Math.random().toString(36).slice(2, 10);
-    localStorage.setItem("chat_session_id", id);
-    setSessionId(id);
-    setMessages([]);
-    textareaRef.current?.focus();
-  }
-
   async function send() {
     const text = input.trim();
-    if (!text || streaming) return;
+    if (!text || streaming || !sessionId) return;
 
     setInput("");
     setStreaming(true);
@@ -64,15 +49,13 @@ export default function ChatPanel() {
     ]);
 
     try {
-      let sources: RagSource[] | undefined;
       for await (const chunk of streamChat(sessionId, text)) {
         if (chunk.sources) {
-          sources = chunk.sources;
           setMessages((prev) => {
             const updated = [...prev];
             updated[updated.length - 1] = {
               ...updated[updated.length - 1],
-              sources,
+              sources: chunk.sources,
             };
             return updated;
           });
@@ -119,17 +102,6 @@ export default function ChatPanel() {
 
   return (
     <div className="flex flex-col flex-1 min-h-0">
-      {/* Session bar */}
-      <div className="flex items-center justify-between mb-2">
-        <span className="text-xs text-gray-400">{sessionId}</span>
-        <button
-          onClick={newChat}
-          className="text-xs text-gray-400 border border-gray-200 rounded-md px-2.5 py-1 hover:bg-gray-100 transition-colors"
-        >
-          New chat
-        </button>
-      </div>
-
       {/* Messages */}
       <div className="flex-1 overflow-y-auto flex flex-col gap-3 pb-2">
         {messages.map((m, i) => (

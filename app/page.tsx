@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Show, UserButton } from "@clerk/nextjs";
 import ChatPanel from "@/components/ChatPanel";
 import SearchPanel from "@/components/SearchPanel";
 
@@ -14,6 +15,9 @@ export default function Home() {
       {/* Header */}
       <header className="w-full max-w-3xl flex items-center justify-between py-3">
         <h1 className="text-[1.1rem] font-semibold text-[#1a1a1a]">Shopping List Chat</h1>
+        <Show when="signed-in">
+          <UserButton />
+        </Show>
       </header>
 
       {/* Tabs */}

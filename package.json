@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@clerk/nextjs": "^7.3.3",
     "@types/dompurify": "^3.0.5",
     "dompurify": "^3.4.3",
     "marked": "^18.0.3",
