@@ -26,7 +26,7 @@ export default function ChatBubble({ role, content, sources, streaming }: Props)
   if (role === "user") {
     return (
       <div
-        className="bg-blue-500 text-white rounded-2xl rounded-tr-sm px-5 py-4 text-sm leading-relaxed"
+        className="bg-blue-500 text-white rounded-2xl rounded-tr-sm px-5 py-4 text-sm leading-loose"
         style={{
           justifySelf: "end",
           maxWidth: "70%",
@@ -48,7 +48,7 @@ export default function ChatBubble({ role, content, sources, streaming }: Props)
       }}
     >
       <div
-        className="bg-white rounded-2xl rounded-tl-sm px-5 py-5 text-sm leading-relaxed text-gray-800 border border-gray-200 shadow-sm"
+        className="bg-white rounded-2xl rounded-tl-sm px-5 py-5 text-sm leading-loose text-gray-800 border border-gray-200 shadow-sm"
         style={{ wordBreak: "break-word" }}
       >
         <div ref={ref} className="prose prose-sm max-w-none">

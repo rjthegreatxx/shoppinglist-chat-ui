@@ -1,4 +1,4 @@
-import type { Message, ProductResult, RagSource } from "./types";
+import type { CartItem, Message, ProductResult, RagSource } from "./types";
 
 const BASE = "/api";
 
@@ -67,4 +67,17 @@ export async function* streamChat(
   }
 
   if (buffer) yield { text: buffer };
+}
+
+export async function createCheckoutSession(items: CartItem[]): Promise<string> {
+  const res = await fetch(`${BASE}/checkout`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      items: items.map(({ product_id, name, quantity }) => ({ product_id, name, quantity })),
+    }),
+  });
+  if (!res.ok) throw new Error(`Checkout failed: ${res.status}`);
+  const data = await res.json();
+  return data.url;
 }

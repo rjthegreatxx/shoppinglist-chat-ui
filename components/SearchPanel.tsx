@@ -4,7 +4,16 @@ import { KeyboardEvent, useState } from "react";
 import { searchProducts } from "@/lib/api";
 import type { ProductResult } from "@/lib/types";
 
-export default function SearchPanel() {
+function mockPriceCents(productId: string): number {
+  const num = parseInt(productId.split("-")[1] ?? "1", 10) || 1;
+  return (num % 10 + 1) * 499;
+}
+
+interface Props {
+  onAddToCart: (product: ProductResult, priceCents: number) => void;
+}
+
+export default function SearchPanel({ onAddToCart }: Props) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<ProductResult[] | null>(null);
   const [loading, setLoading] = useState(false);
@@ -67,16 +76,34 @@ export default function SearchPanel() {
           </p>
         )}
 
-        {results?.map((p) => (
-          <div key={p.product_id} className="bg-white rounded-xl p-4 shadow-sm">
-            <p className="font-semibold text-[0.95rem] text-[#1a1a1a]">{p.name}</p>
-            <p className="text-xs text-gray-400 mb-1.5">ID: {p.product_id}</p>
-            <p className="text-[0.88rem] text-[#444] leading-relaxed">{p.description}</p>
-            <p className="text-[0.72rem] text-[#0a84ff] font-medium mt-2">
-              Relevance: {(p.score * 100).toFixed(0)}%
-            </p>
-          </div>
-        ))}
+        {results?.map((p) => {
+          const priceCents = mockPriceCents(p.product_id);
+          return (
+            <div key={p.product_id} className="bg-white rounded-xl p-4 shadow-sm">
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-[0.95rem] text-[#1a1a1a]">{p.name}</p>
+                  <p className="text-xs text-gray-400 mb-1.5">ID: {p.product_id}</p>
+                  <p className="text-[0.88rem] text-[#444] leading-relaxed">{p.description}</p>
+                  <p className="text-[0.72rem] text-[#0a84ff] font-medium mt-2">
+                    Relevance: {(p.score * 100).toFixed(0)}%
+                  </p>
+                </div>
+                <div className="flex flex-col items-end gap-2 shrink-0">
+                  <p className="text-sm font-semibold text-gray-800">
+                    ${(priceCents / 100).toFixed(2)}
+                  </p>
+                  <button
+                    onClick={() => onAddToCart(p, priceCents)}
+                    className="px-3 py-1.5 bg-blue-500 text-white rounded-lg text-xs font-medium hover:bg-blue-600 transition-colors whitespace-nowrap"
+                  >
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

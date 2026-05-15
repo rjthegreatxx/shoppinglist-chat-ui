@@ -120,7 +120,7 @@ export default function ChatPanel() {
           onKeyDown={onKeyDown}
           onInput={autoResize}
           placeholder="Type a message…"
-          className="flex-1 px-4 py-3 border border-gray-200 rounded-2xl text-sm resize-none outline-none bg-gray-50 leading-snug focus:border-blue-400 focus:bg-white transition-all"
+          className="flex-1 px-4 py-3 border border-gray-200 rounded-2xl text-sm resize-none outline-none bg-gray-50 leading-relaxed focus:border-blue-400 focus:bg-white transition-all"
         />
         <button
           onClick={send}
